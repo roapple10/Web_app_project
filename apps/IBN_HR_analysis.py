@@ -14,7 +14,7 @@ from sklearn.ensemble import RandomForestClassifier
 # from dython.nominal import associations
 
 # CamelCase to snake_case format
-#import inflection
+import inflection
 
 # viz
 import matplotlib.pyplot as plt
