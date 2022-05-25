@@ -38,6 +38,7 @@ def pie(pie_data, pie_label):
         texts[i].set_color(wedge.get_facecolor())
 
     plt.tight_layout()
+    st.set_option('deprecation.showPyplotGlobalUse', False)
     st.pyplot()
 
 
@@ -69,6 +70,7 @@ def bar_plot(attr_crosstab):
     ax.set_xticklabels([])
     sns.despine(left=True, bottom=True)
     # plt.show()
+    st.set_option('deprecation.showPyplotGlobalUse', False)
     st.pyplot()
 
 
@@ -78,6 +80,7 @@ def bar_plot1(corr_matrix, corr_target):
     ax.bar_label(ax.containers[0], padding=3, fmt='%.2f', fontsize=14, fontweight='medium')
     ax.axis('tight')
     sns.despine(left=True)
+    st.set_option('deprecation.showPyplotGlobalUse', False)
     st.pyplot()
 
 
@@ -128,7 +131,9 @@ def bar_plot2(selected_feature, feature_name, feature_score, X_train_model, thre
     ax.set_xlabel('')
     ax.set_ylabel('')
     sns.despine(left=True, bottom=True)
+    st.set_option('deprecation.showPyplotGlobalUse', False)
     st.pyplot()
+
 
 
 def get_score(y_pred_list, y_test, average=None, plot=True, axis=0, cmap='Blues'):
