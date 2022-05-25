@@ -20,7 +20,7 @@ pd.set_option('display.precision', 3)
 
 
 ######################
-# Pie plot
+# Chart
 ######################
 
 def pie(pie_data, pie_label):
