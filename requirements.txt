@@ -9,3 +9,6 @@ shap==0.40.0
 streamlit==1.9.0
 yfinance==0.1.70
 imblearn==0.0
+xgboost==1.6.1
+catboost==1.0.6
+lightgbm==3.3.2
