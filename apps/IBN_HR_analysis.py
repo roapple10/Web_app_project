@@ -350,7 +350,7 @@ def app():
         Please play around the Input Parameters and see the Tuning result  """)
 
     def user_input_selection():
-        ML_model = st.sidebar.selectbox('ML Model', ('XGBoost', 'LightGBM'))
+        ML_model = st.sidebar.selectbox('ML Model', ('LightGBM','XGBoost' ))
         data = {'ML_model': ML_model}
         features = pd.DataFrame(data, index=[0])
         return features
