@@ -23,6 +23,7 @@ pd.set_option('display.precision', 3)
 # Charts
 ######################
 
+#test
 def pie(pie_data, pie_label):
     # pie_data = data_viz['Attrition'].value_counts(normalize=True).values * 100
     # pie_label = data_viz['Attrition'].value_counts(normalize=True).index.to_list()
