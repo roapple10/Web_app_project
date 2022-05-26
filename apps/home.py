@@ -13,7 +13,7 @@ def app():
     * **boston_house:** Kaggle, why we need to do this?
     * **Iris_prediction:** Kaggle, again?
     * **penguins_app:** So cute.
-    * **crypto_price_app:** Luna,how are you?.
+    * **crypto_price_app:** Luna,how are you?
     * **More...**
     """)
 
