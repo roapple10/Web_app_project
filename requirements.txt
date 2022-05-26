@@ -1,5 +1,5 @@
 beautifulsoup4==4.11.1
-numpy==1.21.6
+numpy~=1.22.3
 pandas==1.4.2
 plotly==5.8.0
 scikit-learn==1.1.0
@@ -13,3 +13,5 @@ xgboost==1.6.1
 catboost==1.0.6
 lightgbm==3.3.2
 inflection==0.5.1
+Pillow~=9.1.1
+protobuf~=3.19.0
