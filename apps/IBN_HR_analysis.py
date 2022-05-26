@@ -446,3 +446,4 @@ def app():
     train_acc = accuracy_score(turned_model.predict(X_train_model), y_train_model)
     test_acc = accuracy_score(turned_model.predict(X_test_model), y_test_model)
     confusionMatrix(train_acc, test_acc, y_test_model, X_test_model, y_pred)
+
