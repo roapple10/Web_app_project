@@ -4,6 +4,19 @@ from PIL import Image
 
 def app():
 
+    st.sidebar.markdown("""
+    Please play around each app page,
+    * **IBN_HR_analysis:** My dear..spend time to build
+    * **NBA_stats_app:** [Basketball-reference.com](https://www.basketball-reference.com/).
+    * **Taskus_Stock_price:** Check my company stock.
+    * **SP500:** Check SP500 index.
+    * **boston_house:** Kaggle, why we need to do this?
+    * **Iris_prediction:** Kaggle, again?
+    * **penguins_app:** So cute.
+    * **crypto_price_app:** Luna,how are you?.
+    * **More...**
+    """)
+
     #####################
     # Header
     st.write('''
