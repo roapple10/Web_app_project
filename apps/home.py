@@ -33,7 +33,7 @@ def app():
     st.info('''
     -  This web app was built on Python script and launched by Streamlit framework
     -  Streamlit is an open-source app framework for Machine Learning and Data Science teams.
-    -  I learned how to built up the web app by using the Pycharm and git command, I also gain some knowledge of for ML Models deployment.
+    -  I learned how to built up the web app by using the Pycharm and git command, I also gained some knowledge of for ML Models deployment.
     -  Building web apps as my side project can hone/sharpen my Python coding skills and Data Science knowledge 
     ''')
 
