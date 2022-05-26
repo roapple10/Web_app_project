@@ -114,8 +114,7 @@ def app():
     ######################
 
     # st.sidebar.header('Enter DNA sequence')
-    #st.sidebar.header('User Input Parameters')
-
+    # st.sidebar.header('User Input Parameters')
 
     df = pd.read_csv('apps/WA_Fn-UseC_-HR-Employee-Attrition.csv')
     df.drop({'EmployeeNumber', 'Over18', 'EmployeeCount', 'StandardHours'}, axis=1, inplace=True)
@@ -311,9 +310,7 @@ def app():
 
     X_test_model = X_test_scale.copy()
     y_test_model = y_test_encode.copy()
-
-
-
+    st.write(data_smote['Attrition'].value_counts())
     # Reads in saved model
     y_pred_list = pickle.load(open('apps/saved_model.pkl', 'rb'))
     score_smote = get_score(y_pred_list, y_test_model, average='macro')
@@ -337,8 +334,8 @@ def app():
 
     bar_plot2(selected_feature, feature_name, feature_score, X_train_model, threshold)
 
-    score_compare= pd.read_pickle('apps/score_compare.pkl')
-    #display the dataframe
+    score_compare = pd.read_pickle('apps/score_compare.pkl')
+    # display the dataframe
     st.write(score_compare.style.background_gradient(axis=0))
 
     st.write("""
@@ -347,3 +344,105 @@ def app():
     On the next step (hyperparameter tuning), I will only use original feature and feature after feature selection using wrapper method.
     """)
     st.subheader("""Hyperparameter Tuning...""")
+    st.write("""
+        My tuning strategy focuses on optimizing the positive recall value (not the average) to minimize the occurrence of false negatives, \n
+        In this section, I will use XGBoost and LightGBM for demonstration.\n
+        Please play around the Input Parameters and see the Tuning result  """)
+
+    def user_input_selection():
+        ML_model = st.sidebar.selectbox('ML Model', ('XGBoost', 'LightGBM'))
+        data = {'ML_model': ML_model}
+        features = pd.DataFrame(data, index=[0])
+        return features
+
+    # model_list = {
+    #     'XGBoost': XGBClassifier(random_state=1, use_label_encoder=False, eval_metric='logloss'),
+    #     'LightGBM': LGBMClassifier(random_state=1)
+    #
+    # }
+
+    st.sidebar.header('User Input Parameters')
+    st.sidebar.write('The Input Parameters for Tuning Model ')
+
+    selection = user_input_selection()
+
+    if selection.values[0] == 'XGBoost':
+        def user_input_features():
+            colsample_bytree = st.sidebar.slider('colsample_bytree', 0.1, 0.8, 0.65)
+            learning_rate = st.sidebar.slider('learning_rate', 0.005, 0.05, 0.005)
+            data = {'colsample_bytree': colsample_bytree,
+                    'learning_rate': learning_rate
+                    }
+            features = pd.DataFrame(data, index=[0])
+            return features
+
+        df = user_input_features()
+        model_list = {
+            'XGBoost': XGBClassifier(random_state=1, use_label_encoder=False, eval_metric='logloss')}
+        model_list_tuned = {
+            'XGBoost': XGBClassifier(random_state=1, use_label_encoder=False, eval_metric='logloss',
+                                     colsample_bytree=df.colsample_bytree.item(),
+                                     learning_rate=df.learning_rate.item())}
+        turned_model = model_list_tuned["XGBoost"]
+    elif selection.values[0] == 'LightGBM':
+        def user_input_features():
+            num_leaves = st.sidebar.slider('num_leaves', 1, 12, 10)
+            n_estimators = st.sidebar.slider('n_estimators', 170, 200, 175)
+            learning_rate = st.sidebar.slider('learning_rate', 0.01, 0.05, 0.01)
+            data = {'num_leaves': num_leaves,
+                    'n_estimators': n_estimators,
+                    'learning_rate': learning_rate
+                    }
+            features = pd.DataFrame(data, index=[0])
+            return features
+
+        df = user_input_features()
+        model_list = {
+            'LightGBM': LGBMClassifier(random_state=1)}
+        model_list_tuned = {
+            'LightGBM': LGBMClassifier(random_state=1,
+                                       num_leaves=df.num_leaves.item(),
+                                       n_estimators=df.num_leaves.item(),
+                                       learning_rate=df.learning_rate.item())}
+        turned_model = model_list_tuned["LightGBM"]
+
+
+    st.write('Before Tuning ')
+    y_pred_list = dict()
+    for name, model in model_list.items():
+        model.fit(X_train_model, y_train_model)
+        y_pred_list[name] = model.predict(X_test_model)
+
+    score_no_fs_not_tuned = get_score(y_pred_list, y_test_model)
+    st.write(score_no_fs_not_tuned.style.background_gradient(axis=1))
+
+    st.write('After Tuning ')
+    y_pred_list1 = dict()
+    for name, model in model_list_tuned.items():
+        model.fit(X_train_filter, y_train_model)
+        y_pred_list1[name] = model.predict(X_test_filter)
+
+    score_fs_tuned = get_score(y_pred_list1, y_test_model)
+    st.write(score_fs_tuned.style.background_gradient(axis=1))
+
+    st.write('After tuning, the accuracy score is mostly decreased.')
+
+    score_compare_recall = score_no_fs_not_tuned.loc[:, ['recall']]
+    score_compare_recall = score_compare_recall.join(score_fs_tuned.loc[:, ['recall']],
+                                                     lsuffix='_not_tuned', rsuffix='_tuned')
+    score_compare_recall.style.background_gradient(axis=1)
+    st.write('But, the recall score has increased dramatically. Therefore, \n'
+             'I will use the tuned model for model selection.')
+    st.write(score_compare_recall.style.background_gradient(axis=1))
+
+    st.subheader('Explainable AI')
+    st.write("""
+    Final Model
+    """)
+
+    turned_model.fit(X_train_model, y_train_model)
+    y_pred = turned_model.predict(X_test_model)
+
+    train_acc = accuracy_score(turned_model.predict(X_train_model), y_train_model)
+    test_acc = accuracy_score(turned_model.predict(X_test_model), y_test_model)
+    confusionMatrix(train_acc, test_acc, y_test_model, X_test_model, y_pred)

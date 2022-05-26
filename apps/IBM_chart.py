@@ -8,7 +8,8 @@ import matplotlib.patches as mpatches
 from matplotlib.colors import LinearSegmentedColormap
 from mpl_toolkits.mplot3d import Axes3D
 import seaborn as sns
-from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score, confusion_matrix
+from sklearn.metrics import ConfusionMatrixDisplay
 
 plt.style.use('fivethirtyeight')
 sns.set_style('white')
@@ -23,6 +24,7 @@ pd.set_option('display.precision', 3)
 # Charts
 ######################
 
+# test
 def pie(pie_data, pie_label):
     # pie_data = data_viz['Attrition'].value_counts(normalize=True).values * 100
     # pie_label = data_viz['Attrition'].value_counts(normalize=True).index.to_list()
@@ -135,7 +137,6 @@ def bar_plot2(selected_feature, feature_name, feature_score, X_train_model, thre
     st.pyplot()
 
 
-
 def get_score(y_pred_list, y_test, average=None, plot=True, axis=0, cmap='Blues'):
     model_name = []
     accuracy = []
@@ -183,3 +184,17 @@ def get_score(y_pred_list, y_test, average=None, plot=True, axis=0, cmap='Blues'
         st.write(score_df.style.background_gradient(axis=axis, cmap=cmap))
 
     return score_df
+
+
+def confusionMatrix(train_acc, test_acc, y_test_model, X_test_model,y_pred):
+    st.write("Train Accuracy : {:.2f}".format(train_acc))
+    st.write("Test Accuracy : {:.2f}".format(test_acc))
+    cm = confusion_matrix(y_test_model, y_pred)
+    classes = ["0", "1"]
+    disp = ConfusionMatrixDisplay(confusion_matrix=cm,
+                                  display_labels=classes)
+
+    fig, ax = plt.subplots(figsize=(10, 10))
+    plt.title("Confusion Matrix")
+    disp.plot(ax=ax, cmap='GnBu')
+    st.pyplot()
