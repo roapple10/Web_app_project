@@ -36,5 +36,9 @@ def app():
     -  I learned how to built up the web app by using the Pycharm and git command, I also gained some knowledge of for ML Models deployment.
     -  Building web apps as my side project can hone/sharpen my Python coding skills and Data Science knowledge 
     ''')
+    st.info('''
+    -  Thanks to [Data Professor](https://www.youtube.com/c/DataProfessor) channel
+    -  Thanks to [Python Engineer](https://www.youtube.com/c/PythonEngineer) channel
+    ''')
 
 
