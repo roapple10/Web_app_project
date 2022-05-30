@@ -6,19 +6,20 @@ import base64
 import os
 import openpyxl
 
-# Web App Title
-st.markdown('''
-# **Excel File Merger**
 
-This is the **Excel File Merger App** created in Python using the Streamlit library.
-
-**Credit:** App built in `Python` + `Streamlit` by [Chanin Nantasenamat](https://medium.com/@chanin.nantasenamat) (aka [Data Professor](http://youtube.com/dataprofessor))
-
----
-''')
 
 
 def app():
+    # Web App Title
+    st.markdown('''
+    # **Excel File Merger**
+
+    This is the **Excel File Merger App** created in Python using the Streamlit library.
+
+    **Credit:** App built in `Python` + `Streamlit` by [Chanin Nantasenamat](https://medium.com/@chanin.nantasenamat) (aka [Data Professor](http://youtube.com/dataprofessor))
+
+    ---
+    ''')
     # Excel file merge function
     def excel_file_merge(zip_file_name):
         df = pd.DataFrame()
