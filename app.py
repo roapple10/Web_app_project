@@ -1,7 +1,7 @@
 import streamlit as st
 from multiapp import MultiApp
 # import your app modules here
-from apps import home, Stock_price,basketball_app,sp500_app,boston_house_ml_app,Iris_prediction,penguins_app,crypto_price_app,IBN_HR_analysis
+from apps import home, Stock_price,basketball_app,sp500_app,boston_house_ml_app,Iris_prediction,penguins_app,crypto_price_app,IBN_HR_analysis,Excel_merger,EDA
 
 
 st.markdown("""
@@ -31,7 +31,8 @@ app.add_app("boston_house", boston_house_ml_app.app)
 app.add_app("Iris_prediction", Iris_prediction.app)
 app.add_app("penguins_app", penguins_app.app)
 app.add_app("crypto_price_app", crypto_price_app.app)
-
+app.add_app("Excel_merger", Excel_merger.app)
+app.add_app("EDA Pandas Profiling ", EDA.app)
 
 # The main app
 app.run()
